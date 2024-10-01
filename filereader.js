@@ -3,7 +3,7 @@ class TextFileReader {
 
 	}
 	readFile(file_path) {
-		if (!window) throw new Error('Cannot read file in browser');
+		if (typeof process !== "object") throw new Error('Cannot read file in browser');
 		else {
 			const fs = require('fs');
 			return fs.readFileSync(file_path, 'utf-8');
@@ -37,6 +37,6 @@ class TextFileWriter {
 	}
 }
 
-if (!window) {
+if (typeof window === "undefined) {
 	module.exports = {TextFileReader,TextFileWriter}
 }
