@@ -4,7 +4,7 @@ Librairie facilitant l'utilisation de fichier texte en JavaScript
 ## Importation
 Pour importer la librairie située dans le dossier `dist` :
 ```html
-<script src="dist/filereader.js"></script>
+<script src="filereader.js"></script>
 ```
 ## Utilisation
 ### Lecture de fichiers
@@ -34,4 +34,15 @@ var writer = new TextFileWriter();
 const texte = "hello world";
 const nomFichier = "test.txt";
 writer.saveAsText(texte, nomFichier);
+```
+
+### Node.js
+La librairie (non disponible par npm) est également cabable de créer et de lire des fichiers grâce au module `fs`. Pour lire un fichier et le réecrire autre part on peux faire : 
+```javascript
+(async () => {
+  const file = require("./filereader");
+  const f = new file.TextFileReader();
+  const w = new file.TextFileWriter();
+  await w.saveAsText(f.readFile("index.js"), "test.txt");
+})();
 ```
