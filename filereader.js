@@ -2,6 +2,13 @@ class TextFileReader {
 	constructor() {
 
 	}
+	readFile(file_path) {
+		if (!window) throw new Error('Cannot read file in browser');
+		else {
+			const fs = require('fs');
+			return fs.readFileSync(file_path, 'utf-8');
+		}
+	}
 	async readTextFromInput(input) {
 		const file=input.files[0];
 		const txt = await file.text();
@@ -15,12 +22,21 @@ class TextFileWriter {
 
 	}
 	async saveAsText(text, fileName) {
-		let a = document.createElement("a");
-		let blob = new Blob([text], {
-			type: "text/plain"
-		});
-		a.href = await URL.createObjectURL(blob);
-		a.download = fileName;
-		a.click();
+		if (window) {
+			let a = document.createElement("a");
+			let blob = new Blob([text], {
+				type: "text/plain"
+			});
+			a.href = await URL.createObjectURL(blob);
+			a.download = fileName;
+			a.click();
+		} else {
+			const fs = require('fs');
+			fs.writeFileSync(fileName,text)
+		}
 	}
+}
+
+if (!window) {
+	module.exports = {TextFileReader,TextFileWriter}
 }
